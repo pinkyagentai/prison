@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Tích Chi Tiết - Prison Escape Simulator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 26, 46, 0.95);
+            color: #e0e0e0;
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: rgba(26, 26, 46, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .nav-tabs ul {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            gap: 0;
+        }
+
+        .nav-tabs li {
+            flex-shrink: 0;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: #b0b0b0;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            background: transparent;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            color: #4fc3f7;
+            border-bottom-color: #4fc3f7;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 5%;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #4fc3f7;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .content-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4fc3f7;
+            margin-bottom: 1rem;
+        }
+
+        .content-card p {
+            color: #b0b0b0;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #232a3b, #1a1a2e);
+            color: #e0e0e0;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .highlight-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4fc3f7;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4fc3f7;
+            display: block;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .comparison-table th {
+            background: #232a3b;
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pros, .cons {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .pros h3 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .cons h3 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+        }
+
+        .pros li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pros li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .cons li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .cons li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs ul {
+                flex-direction: column;
+            }
+
+            .nav-tabs a {
+                border-bottom: 1px solid #eee;
+                border-right: none;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Phân Tích Chi Tiết</h1>
+            <p>Prison Escape Simulator: Dig Out - Báo cáo toàn diện từ các tài liệu chuyên sâu</p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <div class="nav-container">
+            <ul>
+                <li><a href="#overview" class="active" data-section="overview">Tổng Quan</a></li>
+                <li><a href="#gameplay" data-section="gameplay">Gameplay</a></li>
+                <li><a href="#technical" data-section="technical">Kỹ Thuật</a></li>
+                <li><a href="#community" data-section="community">Cộng Đồng</a></li>
+                <li><a href="#comparison" data-section="comparison">So Sánh</a></li>
+                <li><a href="#future" data-section="future">Tương Lai</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+            <h2 class="section-title">Tổng Quan Dự Án</h2>
+            
+            <div class="highlight-box">
+                <h3>Thông Tin Cơ Bản</h3>
+                <p><strong>Prison Escape Simulator: Dig Out</strong> là một tựa game mô phỏng độc lập từ Digital Melody, phát hành ngày 25/07/2025. Game được xây dựng trên Unity Engine với concept đơn giản nhưng hấp dẫn về việc vượt ngục thông qua đào hầm.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">25/07/2025</span>
+                    <span class="stat-label">Ngày Phát Hành</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2-5 giờ</span>
+                    <span class="stat-label">Thời Gian Chơi</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Mostly Positive</span>
+                    <span class="stat-label">Đánh Giá Steam</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Windows & macOS</span>
+                    <span class="stat-label">Nền Tảng</span>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Concept Độc Đáo</h3>
+                    <p>Game tập trung vào một concept đơn giản: đào hầm để vượt ngục. Không có cốt truyện phức tạp, không có nhiệm vụ phụ rắc rối - chỉ là một vòng lặp cơ học thuần túy nhưng gây nghiện.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Hệ Thống Kinh Tế</h3>
+                    <p>Điểm nổi bật nhất là hệ thống kinh tế dựa trên "giấy vệ sinh" - một quyết định thiết kế thiên tài phản ánh đúng thực tế kinh tế hàng đổi hàng trong môi trường thiếu thốn.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Tối Ưu Hóa</h3>
+                    <p>Game được thiết kế với hiệu suất cao, sử dụng đồ họa 3D low-poly và các kỹ thuật tối ưu hóa hiện đại để đảm bảo trải nghiệm mượt mà trên nhiều thiết bị.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gameplay Section -->
+        <section id="gameplay" class="content-section">
+            <h2 class="section-title">Phân Tích Gameplay</h2>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Vòng Lặp Cốt Lõi</h3>
+                    <p><strong>1. Đào (Digging):</strong> Bắt đầu với chiếc thìa, đào đất dưới tấm thảm, tiêu tốn năng lượng và quản lý độ bền công cụ.</p>
+                    <p><strong>2. Quản Lý Rủi Ro:</strong> Lắng nghe bước chân lính canh, che lại lỗ hổng, và mang từng túi đất đến bồn cầu để xả nước phi tang.</p>
+                    <p><strong>3. Thu Thập & Giao Dịch:</strong> Đào ra "vật phẩm rác" và bán cho lính canh tham nhũng để đổi lấy giấy vệ sinh.</p>
+                    <p><strong>4. Nâng Cấp:</strong> Dùng giấy vệ sinh mua công cụ tốt hơn, ba lô lớn hơn, giày nhanh hơn từ bạn tù.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Hệ Thống Kinh Tế</h3>
+                    <p><strong>Tiền Tệ Chính - Giấy Vệ Sinh:</strong> Là phương tiện trao đổi giá trị nhất, dùng để mua mọi nâng cấp quan trọng. Kiếm được bằng cách bán "rác" cho lính canh.</p>
+                    <p><strong>Tiền Tệ Phụ - Tiền Mặt:</strong> Gần như vô dụng, chỉ dùng để mở rộng xà lim hoặc các tương tác nhỏ lẻ.</p>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>Điểm Mạnh Gameplay</h3>
+                    <ul>
+                        <li>Concept đơn giản nhưng hấp dẫn</li>
+                        <li>Hệ thống kinh tế độc đáo</li>
+                        <li>Vòng lặp gây nghiện</li>
+                        <li>Quản lý rủi ro thú vị</li>
+                        <li>Hệ thống nâng cấp rõ ràng</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>Điểm Yếu Gameplay</h3>
+                    <ul>
+                        <li>Nội dung hạn chế</li>
+                        <li>Lặp lại nhanh chóng</li>
+                        <li>Thiếu tính đa dạng</li>
+                        <li>Thời gian chơi ngắn</li>
+                        <li>Ít tương tác xã hội</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Section -->
+        <section id="technical" class="content-section">
+            <h2 class="section-title">Phân Tích Kỹ Thuật</h2>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Engine & Nền Tảng</h3>
+                    <p>Xây dựng trên <strong>Unity Engine</strong>, cho phép phát hành trên Windows & macOS, kể cả máy Mac chip Apple Silicon với yêu cầu hệ thống thấp.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Phong Cách Nghệ Thuật</h3>
+                    <p>Sử dụng phong cách <strong>3D low-poly</strong>, hoạt hình, dạng khối (blocky). Không hướng đến sự chân thực mà tập trung vào sự dễ đọc và hiệu suất.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Mô Hình & Texture</h3>
+                    <p>Mô hình có số đa giác thấp (dưới 2,000 tris). Texture chủ yếu là màu phẳng (flat color), kích thước nhỏ (dưới 512px), không dùng map phức tạp.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Ánh Sáng & Hiệu Ứng</h3>
+                    <p>Ánh sáng được "bake" tĩnh để tiết kiệm tài nguyên. Hiệu ứng đơn giản (hạt bụi, glow stick, bóng đổ dạng đốm) để cung cấp phản hồi.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Animation & UI</h3>
+                    <p>Animation dạng lặp, ngắn và rõ ràng (snappy). Giao diện người dùng (UI) sử dụng biểu tượng lớn, font chữ rõ và thanh trạng thái trực quan.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Tối Ưu Hóa</h3>
+                    <p>Gameplay chính chạy mượt, nhưng menu chính bị giật lag nghiêm trọng (4fps), cho thấy sự ưu tiên tối ưu hóa vào trải nghiệm cốt lõi.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Quy Trình Phát Triển Hiện Đại (2025)</h3>
+                <p><strong>AI & Procedural Pipeline:</strong> Xu hướng sử dụng AI để tạo mesh cơ bản (Sloyd, Luma), sau đó tinh chỉnh thủ công. Môi trường được tạo theo dạng module, tile-based để tái sử dụng và tạo ngẫu nhiên.</p>
+                <p><strong>Tối Ưu Texture:</strong> Sử dụng Texture Atlas (gộp nhiều texture nhỏ vào một tấm lớn) để giảm draw call. Kích thước texture được giữ ở mức thấp (256-512px) và dùng các định dạng nén (ETC2/ASTC) cho mobile.</p>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="content-section">
+            <h2 class="section-title">Phản Hồi Cộng Đồng & Lỗi Game</h2>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Các Lỗi Game Nghiêm Trọng</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 0.5rem;"></i><strong>Xóa file save sau khi vượt ngục:</strong> Vấn đề gây phẫn nộ nhất, phá hỏng nỗ lực hoàn thành 100% thành tựu.</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 0.5rem;"></i><strong>Lỗi phá vỡ game:</strong> Mua nâng cấp xà lim có thể gây lỗi không thể tiếp tục chơi.</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 0.5rem;"></i><strong>Lỗi vật lý & tương tác:</strong> Vật phẩm kẹt trong tường, bị bắt vì "đống đất" vô hình.</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 0.5rem;"></i><strong>Lỗi logic:</strong> Bị bắt ngẫu nhiên trong xà lim mà không có lý do rõ ràng.</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Cảm Giác Chung Của Người Chơi</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-clock" style="color: #ffc107; margin-right: 0.5rem;"></i><strong>Lặp lại nhanh chóng:</strong> Vòng lặp gameplay thiếu đa dạng, trở nên nhàm chán sau 2-5 giờ chơi.</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-exclamation" style="color: #ffc107; margin-right: 0.5rem;"></i><strong>Cảm giác "vội vàng":</strong> Game giống một bản Early Access hơn là sản phẩm hoàn chỉnh.</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-lightbulb" style="color: #28a745; margin-right: 0.5rem;"></i><strong>Tiềm năng bị bỏ lỡ:</strong> Nhiều người tiếc nuối vì concept game rất thú vị và "đã có thể trở nên tuyệt vời hơn nhiều".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Hướng Dẫn Thành Tựu Khó & Cảnh Báo</h3>
+                <p><strong>CẢNH BÁO QUAN TRỌNG:</strong> Hoàn thành game (vượt ngục) sẽ <strong>TỰ ĐỘNG XÓA FILE SAVE</strong>. Để hoàn thành các thành tựu tốn thời gian như <strong>"Idler"</strong> (ở trong tù 28 ngày game, ~11 giờ chơi thực), bạn <strong>BẮT BUỘC</strong> phải làm trước khi vượt ngục. Hãy sao lưu file save thủ công trước khi thực hiện cuộc tẩu thoát cuối cùng!</p>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison" class="content-section">
+            <h2 class="section-title">So Sánh Với Các Game Cùng Thể Loại</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Tính Năng</th>
+                        <th>Dig Out</th>
+                        <th>The Escapists</th>
+                        <th>Prison Architect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cơ chế Đào hầm</strong></td>
+                        <td style="color: #28a745; font-weight: 600;">Rất chi tiết, là trọng tâm chính</td>
+                        <td>Chi tiết, một trong nhiều lựa chọn</td>
+                        <td>Chi tiết, có cơ chế hợp tác</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hệ thống Chế tạo</strong></td>
+                        <td style="color: #dc3545; font-weight: 600;">Không có</td>
+                        <td>Rất phức tạp và quan trọng</td>
+                        <td>Không có</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tương tác Xã hội</strong></td>
+                        <td style="color: #dc3545; font-weight: 600;">Tối thiểu (chỉ giao dịch)</td>
+                        <td>Quan trọng (quan hệ, nhiệm vụ)</td>
+                        <td>Cơ bản (chiêu mộ băng nhóm)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quản lý Lịch trình</strong></td>
+                        <td style="color: #dc3545; font-weight: 600;">Không có</td>
+                        <td>Bắt buộc phải tuân thủ</td>
+                        <td>Không bắt buộc</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nhiều Đường Thoát</strong></td>
+                        <td style="color: #dc3545; font-weight: 600;">Chỉ một (đào hầm) & các ending ẩn</td>
+                        <td>Có (nhiều phương pháp đa dạng)</td>
+                        <td>Có (tùy thuộc vào thiết kế nhà tù)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Vị Thế Thị Trường</h3>
+                    <p>Dig Out đã tạo ra một thị trường ngách riêng biệt so với các "ông lớn" như The Escapists hay Prison Architect. Game tập trung vào một khía cạnh cụ thể (đào hầm) và làm nó thật tốt, thay vì cố gắng làm tất cả mọi thứ.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Điểm Mạnh So Sánh</h3>
+                    <p>• Concept đơn giản, dễ tiếp cận<br>
+                    • Hệ thống kinh tế độc đáo<br>
+                    • Tối ưu hóa hiệu suất tốt<br>
+                    • Thời gian chơi ngắn, phù hợp casual</p>
+                </div>
+                <div class="content-card">
+                    <h3>Điểm Yếu So Sánh</h3>
+                    <p>• Nội dung hạn chế<br>
+                    • Thiếu tính đa dạng<br>
+                    • Ít tương tác xã hội<br>
+                    • Không có hệ thống chế tạo</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Section -->
+        <section id="future" class="content-section">
+            <h2 class="section-title">Ý Tưởng Đột Phá & Tương Lai</h2>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Hệ Thống NPC Động</h3>
+                    <p>Xây dựng NPC có trí nhớ, tâm trạng và danh tiếng. Hành động của người chơi (phản bội, giúp đỡ) sẽ tạo ra đồng minh, kẻ thù và mạng lưới người cung cấp thông tin.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Nhiều Con Đường Tẩu Thoát</h3>
+                    <p>Thiết kế nhà tù với nhiều phương án thoát hiểm: đào hầm, hack hệ thống an ninh, giả dạng nhân viên, hoặc lợi dụng bạo loạn. Mỗi lần chơi sẽ có thử thách mới nhờ yếu tố tạo ngẫu nhiên.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Thế Giới Phản Ứng</h3>
+                    <p>Lính canh sẽ "học hỏi" từ người chơi. Nếu bạn đào hầm quá nhiều, chúng sẽ lắp đặt cảm biến mặt đất. Nếu bạn gây rối, chúng sẽ tăng cường tuần tra.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Chế Độ Chơi Phối Hợp (Co-op)</h3>
+                    <p>Cho phép nhiều người chơi cùng vượt ngục. Một người đánh lạc hướng, một người đào hầm, một người chế tạo công cụ. Yêu cầu sự phối hợp thời gian thực.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Câu Đố Kiểu Escape Room</h3>
+                    <p>Tích hợp các câu đố logic và vật lý: nối lại mạch điện, giải mật mã lịch trình của lính canh, hoặc gài bẫy bằng chứng để hãm hại kẻ thù.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Nội Dung Từ Cộng Đồng</h3>
+                    <p>Cho phép người chơi thiết kế và chia sẻ các bản đồ nhà tù, kịch bản thử thách, hoặc các ending tùy chỉnh, giúp tăng giá trị chơi lại vô hạn.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Tiềm Năng Phát Triển Mobile</h3>
+                <p>Với concept đơn giản và thời gian chơi ngắn, Dig Out có tiềm năng lớn trên mobile. Có thể phát triển thành một game casual với các tính năng như:</p>
+                <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i>Chế độ chơi ngắn (5-10 phút)</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i>Hệ thống năng lượng và thời gian chờ</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i>Tích hợp quảng cáo và in-app purchase</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-mobile-alt" style="margin-right: 0.5rem;"></i>Social features và leaderboard</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Tab navigation
+        const tabLinks = document.querySelectorAll('.nav-tabs a');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all tabs and sections
+                tabLinks.forEach(tab => tab.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const targetSection = document.querySelector(link.getAttribute('href'));
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            });
+        });
+
+        // Back to top functionality
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Add animation to cards
+        const cards = document.querySelectorAll('.content-card');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html> 

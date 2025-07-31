@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phân Tích Chi Tiết - Prison Escape Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -336,6 +338,30 @@
         .back-to-top.show {
             display: flex;
         }
+
+        /* Chart container styles */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flowchart-arrow {
+            font-size: 2rem;
+            line-height: 1;
+            color: #F2A104;
+        }
+        .swot-quadrant {
+            border-color: #4B5563;
+        }
     </style>
 </head>
 <body>
@@ -346,6 +372,128 @@
             <p>Prison Escape Simulator: Dig Out - Báo cáo toàn diện từ các tài liệu chuyên sâu</p>
         </div>
     </header>
+    <!-- START: Infographic Block -->
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-white leading-tight">BÁO CÁO PHÂN TÍCH</h1>
+            <h2 class="text-2xl md:text-3xl font-bold text-[#F2A104]">Prison Escape Simulator: Dig Out</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-gray-400">Một cái nhìn sâu vào vòng lặp gameplay, kinh tế độc đáo và những cơ hội bị bỏ lỡ của một tựa game vượt ngục đầy tham vọng.</p>
+        </header>
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-3 bg-gray-900/50 rounded-2xl shadow-2xl p-6 flex flex-col md:flex-row items-center gap-8 border border-gray-700">
+                <div class="w-full md:w-1/3 text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Đánh Giá Chung</h3>
+                    <p class="text-7xl font-black text-[#00A6A6]">72%</p>
+                    <p class="text-gray-400 font-semibold">"Mostly Positive" trên Steam</p>
+                </div>
+                <div class="w-full md:w-1/3 text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Thời Gian Chơi Trung Bình</h3>
+                    <p class="text-7xl font-black text-[#F26522]">2-5</p>
+                    <p class="text-gray-400 font-semibold">Giờ để hoàn thành</p>
+                </div>
+                <div class="w-full md:w-1/3 text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Mức Giá</h3>
+                    <p class="text-7xl font-black text-[#7A306C]">&lt;5$</p>
+                    <p class="text-gray-400 font-semibold">Giá trị giải trí nhanh</p>
+                </div>
+            </div>
+            <div class="lg:col-span-3 bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-2xl font-bold text-white mb-4 text-center">Vòng Lặp Gameplay Cốt Lõi: Chu Kỳ Gây Nghiện</h3>
+                <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto">Trọng tâm của game là một chu trình 4 bước đơn giản nhưng hiệu quả, thúc đẩy người chơi liên tục tiến về phía trước.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 text-center">
+                    <div class="p-4 rounded-lg bg-gray-700 w-full md:w-auto">
+                        <p class="text-5xl">⛏️</p>
+                        <h4 class="font-bold mt-2">1. Đào</h4>
+                        <p class="text-sm text-gray-400">Tiêu tốn năng lượng</p>
+                    </div>
+                    <div class="flowchart-arrow transform md:-rotate-90">↓</div>
+                    <div class="p-4 rounded-lg bg-gray-700 w-full md:w-auto">
+                        <p class="text-5xl">🗑️</p>
+                        <h4 class="font-bold mt-2">2. Phi Tang Đất</h4>
+                        <p class="text-sm text-gray-400">Tránh bị lính canh phát hiện</p>
+                    </div>
+                    <div class="flowchart-arrow transform md:-rotate-90">↓</div>
+                    <div class="p-4 rounded-lg bg-gray-700 w-full md:w-auto">
+                        <p class="text-5xl">🤝</p>
+                        <h4 class="font-bold mt-2">3. Giao Dịch</h4>
+                        <p class="text-sm text-gray-400">Bán "rác" lấy Giấy Vệ Sinh</p>
+                    </div>
+                    <div class="flowchart-arrow transform md:-rotate-90">↓</div>
+                    <div class="p-4 rounded-lg bg-gray-700 w-full md:w-auto">
+                        <p class="text-5xl">📈</p>
+                        <h4 class="font-bold mt-2">4. Nâng Cấp</h4>
+                        <p class="text-sm text-gray-400">Mua công cụ tốt hơn</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-2 lg:col-span-1 bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-2xl font-bold text-white mb-2 text-center">Kinh Tế Nhà Tù</h3>
+                <p class="text-center text-gray-400 mb-4">Trong tù, giá trị bị đảo lộn. Giấy vệ sinh là vua, còn tiền mặt gần như vô dụng.</p>
+                <div class="chart-container">
+                    <canvas id="economyChart"></canvas>
+                </div>
+            </div>
+            <div class="md:col-span-2 bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-2xl font-bold text-white mb-2 text-center">Thứ Tự Ưu Tiên Nâng Cấp</h3>
+                <p class="text-center text-gray-400 mb-4">Để tối ưu hóa quá trình vượt ngục, việc đầu tư thông minh là chìa khóa. Đây là lộ trình được đề xuất.</p>
+                <div class="chart-container">
+                    <canvas id="upgradeChart"></canvas>
+                </div>
+            </div>
+            <div class="lg:col-span-3 bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-2xl font-bold text-white mb-2 text-center">Đối Đầu Với Các Tượng Đài</h3>
+                <p class="text-center text-gray-400 mb-4">So với các game vượt ngục khác, "Dig Out" chọn một lối đi riêng, tập trung vào sự đơn giản thay vì phức tạp.</p>
+                <div class="chart-container max-w-md mx-auto">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+            <div class="lg:col-span-3 bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-2xl font-bold text-white mb-4 text-center">Phán Quyết Cuối Cùng: Một Viên Ngọc Thô</h3>
+                <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto">Trò chơi là một sản phẩm đầy mâu thuẫn, pha trộn giữa những ý tưởng thiết kế thông minh và sự cẩu thả trong khâu thực thi kỹ thuật.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="swot-quadrant border-t-4 border-l-4 rounded-tl-lg p-4 bg-green-900/30">
+                        <h4 class="font-bold text-lg text-green-300">Điểm Mạnh (Strengths)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-300 space-y-1">
+                            <li>Vòng lặp gameplay cốt lõi gây nghiện.</li>
+                            <li>Hệ thống kinh tế giấy vệ sinh độc đáo, sáng tạo.</li>
+                            <li>Dễ tiếp cận, mang lại sự thỏa mãn nhanh chóng.</li>
+                            <li>Yêu cầu hệ thống thấp, chạy trên nhiều máy.</li>
+                        </ul>
+                    </div>
+                    <div class="swot-quadrant border-t-4 border-r-4 rounded-tr-lg p-4 bg-red-900/30">
+                        <h4 class="font-bold text-lg text-red-300">Điểm Yếu (Weaknesses)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-300 space-y-1">
+                            <li>Vô số lỗi game, đặc biệt là lỗi xóa file save.</li>
+                            <li>Nội dung lặp lại, thời gian chơi ngắn.</li>
+                            <li>Đồ họa đơn giản, thiếu chau chuốt.</li>
+                            <li>Menu chính tối ưu hóa rất kém.</li>
+                        </ul>
+                    </div>
+                    <div class="swot-quadrant border-b-4 border-l-4 rounded-bl-lg p-4 bg-blue-900/30">
+                        <h4 class="font-bold text-lg text-blue-300">Cơ Hội (Opportunities)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-300 space-y-1">
+                            <li>Tiềm năng trở thành game tuyệt vời nếu được sửa lỗi.</li>
+                            <li>Có thể mở rộng với các nhà tù, công cụ mới.</li>
+                            <li>Concept game có thể phát triển thành phần 2.</li>
+                        </ul>
+                    </div>
+                    <div class="swot-quadrant border-b-4 border-r-4 rounded-br-lg p-4 bg-yellow-900/30">
+                        <h4 class="font-bold text-lg text-yellow-300">Thách Thức (Threats)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-300 space-y-1">
+                            <li>Sự cạnh tranh từ các game vượt ngục có chiều sâu hơn.</li>
+                            <li>Đánh giá tiêu cực về lỗi có thể ảnh hưởng doanh số.</li>
+                            <li>Mô hình phát hành nhanh của PlayWay có thể bỏ rơi game.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>Infographic được tạo dựa trên báo cáo phân tích toàn diện về Prison Escape Simulator: Dig Out.</p>
+            <p>Thiết kế và trực quan hóa bởi Canvas Infographics.</p>
+        </footer>
+    </div>
+    <!-- END: Infographic Block -->
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
@@ -403,6 +551,150 @@
                 <div class="content-card">
                     <h3>Tối Ưu Hóa</h3>
                     <p>Game được thiết kế với hiệu suất cao, sử dụng đồ họa 3D low-poly và các kỹ thuật tối ưu hóa hiện đại để đảm bảo trải nghiệm mượt mà trên nhiều thiết bị.</p>
+                </div>
+            </div>
+
+            <!-- Bảng Thống Kê Chi Tiết -->
+            <div class="highlight-box">
+                <h3>Thống Kê Chi Tiết Dự Án</h3>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Chỉ Số</th>
+                                <th>Giá Trị</th>
+                                <th>Mô Tả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ngày Phát Hành</strong></td>
+                                <td>25/07/2025</td>
+                                <td>Phát hành trên Steam</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nhà Phát Triển</strong></td>
+                                <td>Digital Melody</td>
+                                <td>Studio indie</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Engine</strong></td>
+                                <td>Unity</td>
+                                <td>3D Game Engine</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Thời Gian Chơi</strong></td>
+                                <td>2-5 giờ</td>
+                                <td>Để hoàn thành game</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Đánh Giá Steam</strong></td>
+                                <td>Mostly Positive</td>
+                                <td>72% đánh giá tích cực</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nền Tảng</strong></td>
+                                <td>Windows & macOS</td>
+                                <td>Hỗ trợ Apple Silicon</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yêu Cầu Hệ Thống</strong></td>
+                                <td>Thấp</td>
+                                <td>Tối ưu cho nhiều máy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bảng Hệ Thống Gameplay -->
+            <div class="highlight-box">
+                <h3>Hệ Thống Gameplay Chi Tiết</h3>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Hệ Thống</th>
+                                <th>Mô Tả</th>
+                                <th>Mức Độ Quan Trọng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Đào Hầm</strong></td>
+                                <td>Hành động cốt lõi, tiêu tốn năng lượng</td>
+                                <td style="color: #4fc3f7; font-weight: 600;">★★★★★</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quản Lý Rủi Ro</strong></td>
+                                <td>Lắng nghe bước chân, che giấu hoạt động</td>
+                                <td style="color: #4fc3f7; font-weight: 600;">★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Giao Dịch</strong></td>
+                                <td>Bán rác lấy giấy vệ sinh</td>
+                                <td style="color: #4fc3f7; font-weight: 600;">★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nâng Cấp</strong></td>
+                                <td>Mua công cụ tốt hơn</td>
+                                <td style="color: #4fc3f7; font-weight: 600;">★★★★☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quản Lý Năng Lượng</strong></td>
+                                <td>Hạn chế thời gian đào</td>
+                                <td style="color: #b0b0b0; font-weight: 600;">★★★☆☆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phi Tang</strong></td>
+                                <td>Xả đất xuống bồn cầu</td>
+                                <td style="color: #b0b0b0; font-weight: 600;">★★★☆☆</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bảng Vật Phẩm & Giá Trị -->
+            <div class="highlight-box">
+                <h3>Hệ Thống Vật Phẩm & Giá Trị</h3>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Vật Phẩm</th>
+                                <th>Giá Trị</th>
+                                <th>Công Dụng</th>
+                                <th>Nguồn Gốc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Giấy Vệ Sinh</strong></td>
+                                <td style="color: #28a745; font-weight: 600;">Cao nhất</td>
+                                <td>Mua nâng cấp quan trọng</td>
+                                <td>Bán rác cho lính canh</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tiền Mặt</strong></td>
+                                <td style="color: #dc3545; font-weight: 600;">Thấp</td>
+                                <td>Mở rộng xà lim</td>
+                                <td>Đào được từ đất</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vật Phẩm Rác</strong></td>
+                                <td style="color: #ffc107; font-weight: 600;">Trung bình</td>
+                                <td>Đổi lấy giấy vệ sinh</td>
+                                <td>Đào được từ đất</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Đất</strong></td>
+                                <td style="color: #6c757d; font-weight: 600;">Không có</td>
+                                <td>Chỉ để phi tang</td>
+                                <td>Đào hầm</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -512,9 +804,107 @@
                 </div>
             </div>
 
+            <!-- Bảng Lỗi Game & Giải Pháp -->
+            <div class="highlight-box">
+                <h3>Bảng Tổng Hợp Lỗi Game & Giải Pháp</h3>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Loại Lỗi</th>
+                                <th>Mô Tả Chi Tiết</th>
+                                <th>Mức Độ Nghiêm Trọng</th>
+                                <th>Giải Pháp Tạm Thời</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Xóa File Save</strong></td>
+                                <td>File save bị xóa tự động sau khi vượt ngục</td>
+                                <td style="color: #dc3545; font-weight: 600;">Nghiêm trọng</td>
+                                <td>Sao lưu file save thủ công</td>
+                                <td style="color: #dc3545; font-weight: 600;">Chưa sửa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lỗi Nâng Cấp Xà Lim</strong></td>
+                                <td>Game bị crash khi mua nâng cấp xà lim</td>
+                                <td style="color: #dc3545; font-weight: 600;">Nghiêm trọng</td>
+                                <td>Tránh mua nâng cấp xà lim</td>
+                                <td style="color: #dc3545; font-weight: 600;">Chưa sửa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vật Phẩm Kẹt Tường</strong></td>
+                                <td>Vật phẩm bị kẹt trong tường, không lấy được</td>
+                                <td style="color: #ffc107; font-weight: 600;">Trung bình</td>
+                                <td>Reload game</td>
+                                <td style="color: #ffc107; font-weight: 600;">Thỉnh thoảng</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bị Bắt Ngẫu Nhiên</strong></td>
+                                <td>Bị bắt trong xà lim không có lý do</td>
+                                <td style="color: #ffc107; font-weight: 600;">Trung bình</td>
+                                <td>Không có</td>
+                                <td style="color: #ffc107; font-weight: 600;">Thỉnh thoảng</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Menu Lag</strong></td>
+                                <td>Menu chính chạy 4fps</td>
+                                <td style="color: #6c757d; font-weight: 600;">Nhẹ</td>
+                                <td>Chờ đợi</td>
+                                <td style="color: #6c757d; font-weight: 600;">Thường xuyên</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lỗi Đất Vô Hình</strong></td>
+                                <td>Bị bắt vì "đống đất" không nhìn thấy</td>
+                                <td style="color: #ffc107; font-weight: 600;">Trung bình</td>
+                                <td>Đào lại khu vực</td>
+                                <td style="color: #ffc107; font-weight: 600;">Thỉnh thoảng</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bảng Thành Tựu & Hướng Dẫn -->
             <div class="highlight-box">
                 <h3>Hướng Dẫn Thành Tựu Khó & Cảnh Báo</h3>
-                <p><strong>CẢNH BÁO QUAN TRỌNG:</strong> Hoàn thành game (vượt ngục) sẽ <strong>TỰ ĐỘNG XÓA FILE SAVE</strong>. Để hoàn thành các thành tựu tốn thời gian như <strong>"Idler"</strong> (ở trong tù 28 ngày game, ~11 giờ chơi thực), bạn <strong>BẮT BUỘC</strong> phải làm trước khi vượt ngục. Hãy sao lưu file save thủ công trước khi thực hiện cuộc tẩu thoát cuối cùng!</p>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Thành Tựu</th>
+                                <th>Yêu Cầu</th>
+                                <th>Thời Gian</th>
+                                <th>Lưu Ý Quan Trọng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Idler</strong></td>
+                                <td>Ở trong tù 28 ngày game</td>
+                                <td>~11 giờ chơi thực</td>
+                                <td style="color: #dc3545; font-weight: 600;">LÀM TRƯỚC KHI VƯỢT NGỤC</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hoàn Thành Game</strong></td>
+                                <td>Vượt ngục thành công</td>
+                                <td>2-5 giờ</td>
+                                <td style="color: #dc3545; font-weight: 600;">SẼ XÓA FILE SAVE</td>
+                            </tr>
+                            <tr>
+                                <td><strong>100% Thành Tựu</strong></td>
+                                <td>Hoàn thành tất cả thành tựu</td>
+                                <td>15-20 giờ</td>
+                                <td style="color: #ffc107; font-weight: 600;">Cần sao lưu thường xuyên</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="background: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; border-radius: 10px; padding: 1rem; margin-top: 1rem;">
+                    <h4 style="color: #dc3545; font-weight: 600; margin-bottom: 0.5rem;">⚠️ CẢNH BÁO QUAN TRỌNG:</h4>
+                    <p style="color: #e0e0e0; margin: 0;">Hoàn thành game (vượt ngục) sẽ <strong>TỰ ĐỘNG XÓA FILE SAVE</strong>. Để hoàn thành các thành tựu tốn thời gian như "Idler", bạn <strong>BẮT BUỘC</strong> phải làm trước khi vượt ngục. Hãy sao lưu file save thủ công trước khi thực hiện cuộc tẩu thoát cuối cùng!</p>
+                </div>
             </div>
         </section>
 
@@ -699,6 +1089,182 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(card);
+        });
+
+        // Chart.js Configuration
+        const FONT_COLOR = '#E5E7EB';
+        const GRID_COLOR = '#4B5563';
+        const PALETTE = {
+            blue: '#00A6A6',
+            purple: '#7A306C',
+            yellow: '#F2A104',
+            brown: '#A6874E',
+            orange: '#F26522'
+        };
+
+        function wrapLabel(label) {
+            const maxLength = 16;
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).length > maxLength) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine += (currentLine === '' ? '' : ' ') + word;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const defaultPlugins = {
+            legend: {
+                labels: {
+                    color: FONT_COLOR,
+                    font: {
+                        family: "'Inter', sans-serif"
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: tooltipTitleCallback
+                }
+            }
+        };
+
+        const defaultScales = {
+            x: {
+                ticks: { color: FONT_COLOR },
+                grid: { color: GRID_COLOR }
+            },
+            y: {
+                ticks: { color: FONT_COLOR },
+                grid: { color: GRID_COLOR }
+            }
+        };
+
+        // Initialize charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Economy Chart
+            const economyChartCanvas = document.getElementById('economyChart');
+            if (economyChartCanvas) {
+                new Chart(economyChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Giấy Vệ Sinh', 'Tiền Mặt'],
+                        datasets: [{
+                            label: 'Giá trị sử dụng trong game',
+                            data: [95, 15],
+                            backgroundColor: [PALETTE.blue, PALETTE.purple],
+                            borderColor: [PALETTE.blue, PALETTE.purple],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                ticks: { color: FONT_COLOR, callback: (value) => value + '%' },
+                                grid: { color: GRID_COLOR }
+                            },
+                            y: {
+                                ticks: { color: FONT_COLOR },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: { ...defaultPlugins, legend: { display: false } }
+                    }
+                });
+            }
+
+            // Upgrade Chart
+            const upgradeChartCanvas = document.getElementById('upgradeChart');
+            if (upgradeChartCanvas) {
+                new Chart(upgradeChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Xẻng', 'Ba Lô', 'Giày', 'Năng Lượng'],
+                        datasets: [{
+                            label: 'Mức độ ưu tiên',
+                            data: [100, 85, 70, 50],
+                            backgroundColor: [PALETTE.orange, PALETTE.yellow, PALETTE.brown, PALETTE.purple],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: defaultScales,
+                        plugins: { ...defaultPlugins, legend: { display: false } }
+                    }
+                });
+            }
+            
+            // Comparison Chart
+            const comparisonChartCanvas = document.getElementById('comparisonChart');
+            if (comparisonChartCanvas) {
+                new Chart(comparisonChartCanvas, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Độ sâu Gameplay', 'Hệ thống Chế tạo', 'Tương tác Xã hội', 'Sự Đơn giản', 'Tập trung Đào hầm'],
+                        datasets: [
+                            {
+                                label: 'Dig Out',
+                                data: [3, 1, 2, 9, 10],
+                                fill: true,
+                                backgroundColor: 'rgba(242, 101, 34, 0.2)',
+                                borderColor: PALETTE.orange,
+                                pointBackgroundColor: PALETTE.orange,
+                            },
+                            {
+                                label: 'The Escapists',
+                                data: [9, 9, 8, 4, 6],
+                                fill: true,
+                                backgroundColor: 'rgba(0, 166, 166, 0.2)',
+                                borderColor: PALETTE.blue,
+                                pointBackgroundColor: PALETTE.blue,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: defaultPlugins,
+                        scales: {
+                            r: {
+                                angleLines: { color: GRID_COLOR },
+                                grid: { color: GRID_COLOR },
+                                pointLabels: {
+                                    color: FONT_COLOR,
+                                    font: { size: 10 }
+                                },
+                                ticks: {
+                                    color: FONT_COLOR,
+                                    backdropColor: 'transparent',
+                                    stepSize: 2
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>
